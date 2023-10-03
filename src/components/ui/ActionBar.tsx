@@ -14,7 +14,7 @@ const ActionBar = ({ title, children }: ActionBarProps) => {
 		<div>
 			<UMBreadCrumb items={[{ label: `${role}`, link: `/${role}` }]} />
 			<h1>{title}</h1>
-			<div style={{ display: "flex" }}>{children}</div>
+			<div>{children}</div>
 		</div>
 	);
 };

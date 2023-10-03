@@ -4,10 +4,15 @@ import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import { useUserLoginMutation } from "@/redux/api/authApi";
 import { isLoggedIn, storeUserInfo } from "@/services/auth.service";
-import { Button, Space, Spin, message } from "antd";
+import { Button, message, Spin } from "antd";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
+import { LoadingOutlined } from "@ant-design/icons";
+
+const antIcon = (
+	<LoadingOutlined style={{ fontSize: 24, color: "#fff" }} spin />
+);
 
 type FormValues = {
 	id: string;
@@ -16,27 +21,15 @@ type FormValues = {
 
 const LoginForm = () => {
 	const router = useRouter();
-	const [userLogin] = useUserLoginMutation();
+	const [userLogin, { isLoading }] = useUserLoginMutation();
 
 	const userLoggedIn = isLoggedIn();
-	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (userLoggedIn) {
 			router.push("/profile");
 		}
-		setIsLoading(true);
 	}, [userLoggedIn, router]);
-
-	if (!isLoading) {
-		return (
-			<div className="flex_middle">
-				<Space size="middle">
-					<Spin size="large" />
-				</Space>
-			</div>
-		);
-	}
 
 	const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
 		try {
@@ -74,7 +67,7 @@ const LoginForm = () => {
 						/>
 					</div>
 					<Button type="primary" htmlType="submit">
-						Login
+						{isLoading ? <Spin indicator={antIcon} /> : "Login"}
 					</Button>
 				</Form>
 			</div>

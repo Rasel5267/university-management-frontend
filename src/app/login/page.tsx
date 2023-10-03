@@ -2,6 +2,7 @@ import LoginForm from "@/components/ui/LoginForm";
 import { Col, Row } from "antd";
 import { Metadata } from "next";
 import Image from "next/image";
+import { LoadingOutlined } from "@ant-design/icons";
 
 export const metadata: Metadata = {
 	title: "UMS | Login",

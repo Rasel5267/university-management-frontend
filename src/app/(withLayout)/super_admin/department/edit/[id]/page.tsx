@@ -3,12 +3,13 @@
 import Form from "@/components/Forms/Form";
 import FormInput from "@/components/Forms/FormInput";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import { useAddDepartmentMutation } from "@/redux/api/departmentApi";
+import {
+	useDepartmentQuery,
+	useUpdateDepartmentMutation,
+} from "@/redux/api/departmentApi";
 import { departmentSchema } from "@/schemas/department";
-import { getUserInfo } from "@/services/auth.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row, message } from "antd";
-import { useRouter } from "next/navigation";
 import { SubmitHandler } from "react-hook-form";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
@@ -17,42 +18,52 @@ const antIcon = (
 	<LoadingOutlined style={{ fontSize: 24, color: "#fff" }} spin />
 );
 
+type IDProps = {
+	params: any;
+};
+
 type FormValues = {
 	title: string;
 };
 
-const CreateDepartmentPage = () => {
-	const { role } = getUserInfo() as any;
-	const router = useRouter();
+const EditDepartmentPage = ({ params }: IDProps) => {
+	const { id } = params;
 
-	const [addDepartment, { isLoading }] = useAddDepartmentMutation();
+	const { data } = useDepartmentQuery(id);
+	const [updateDepartment, { isLoading }] = useUpdateDepartmentMutation();
 
-	const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
+	const onSubmit: SubmitHandler<FormValues> = async (values: {
+		title: string;
+	}) => {
 		try {
-			const res = await addDepartment(data).unwrap();
+			const res = await updateDepartment({ id, body: values }).unwrap();
 			message.success(res?.message);
-			router.push("/super_admin/department");
 		} catch (error: any) {
 			message.error(error?.data?.errorMessages[0]?.message);
 		}
+	};
+
+	const defaultValues = {
+		title: data?.data?.title || "",
 	};
 
 	return (
 		<div>
 			<UMBreadCrumb
 				items={[
-					{ label: `${role}`, link: `/${role}` },
+					{ label: `super_admin`, link: `/super_admin` },
 					{
 						label: `department`,
-						link: `/${role}/department`,
+						link: `/super_admin/department`,
 					},
 				]}
 			/>
 			<h1 style={{ textAlign: "center", margin: "1rem 0" }}>
-				Change Password
+				Update Department
 			</h1>
 			<Form
 				submitHandler={onSubmit}
+				defaultValues={defaultValues}
 				resolver={yupResolver(departmentSchema)}
 			>
 				<Row gutter={{ xs: 24, xl: 8, lg: 8, md: 24 }}>
@@ -70,7 +81,7 @@ const CreateDepartmentPage = () => {
 					{isLoading ? (
 						<Spin indicator={antIcon} />
 					) : (
-						"Create Department"
+						"Update Department"
 					)}
 				</Button>
 			</Form>
@@ -78,4 +89,4 @@ const CreateDepartmentPage = () => {
 	);
 };
 
-export default CreateDepartmentPage;
+export default EditDepartmentPage;

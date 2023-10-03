@@ -12,9 +12,19 @@ import {
 	departmentOptions,
 	genderOptions,
 } from "@/constants/global";
+import { adminSchema } from "@/schemas/admin";
 import { getUserInfo } from "@/services/auth.service";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row } from "antd";
 import { SubmitHandler } from "react-hook-form";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+
+const antIcon = (
+	<LoadingOutlined style={{ fontSize: 24, color: "#fff" }} spin />
+);
+
+const isLoading = false;
 
 type FormValues = {
 	id: string;
@@ -46,7 +56,10 @@ const CreateAdminPage = () => {
 				Create Admin
 			</h1>
 			<div>
-				<Form submitHandler={onSubmit}>
+				<Form
+					submitHandler={onSubmit}
+					resolver={yupResolver(adminSchema)}
+				>
 					<div
 						style={{
 							border: "1px solid #d9d9d9",
@@ -226,7 +239,11 @@ const CreateAdminPage = () => {
 						}}
 					>
 						<Button type="primary" htmlType="submit">
-							Create Admin
+							{isLoading ? (
+								<Spin indicator={antIcon} />
+							) : (
+								"Create Admin"
+							)}
 						</Button>
 					</div>
 				</Form>
