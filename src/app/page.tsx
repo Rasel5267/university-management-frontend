@@ -1,17 +1,7 @@
-import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-	return (
-		<main>
-			<div>
-				<Image
-					src="/login-image.png"
-					alt="Next.js Logo"
-					width={500}
-					height={500}
-					priority
-				/>
-			</div>
-		</main>
-	);
-}
+const HomePage = () => {
+	return redirect("/profile");
+};
+
+export default HomePage;

@@ -1,10 +1,19 @@
 "use client";
 
+import { Button, Result } from "antd";
+import Link from "next/link";
+
 const ErrorPage = () => {
 	return (
-		<div>
-			<h1>Something went wrong!</h1>
-		</div>
+		<Result
+			status="warning"
+			title="Something went wrong"
+			extra={
+				<Button>
+					<Link href="/">Back Home</Link>
+				</Button>
+			}
+		/>
 	);
 };
 

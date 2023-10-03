@@ -27,7 +27,7 @@ const FormInput = ({
 	const { control } = useFormContext();
 	return (
 		<>
-			<div style={{ marginBottom: "0.6rem", fontWeight: "500" }}>
+			<div style={{ margin: "0.6rem 0", fontWeight: "500" }}>
 				{label ? label : null}
 			</div>
 			<Controller
