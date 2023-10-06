@@ -12,6 +12,7 @@ type UMTableProps = {
 	onPaginationChange?: (pageSize: number, total: number) => void;
 	onTableChange?: (pagination: any, filter: any, sorter: any) => void;
 	showPagination?: boolean;
+	scroll: any;
 };
 
 const UMTable = ({
@@ -24,6 +25,7 @@ const UMTable = ({
 	onPaginationChange,
 	onTableChange,
 	showPagination = true,
+	scroll,
 }: UMTableProps) => {
 	const paginationConfig = showPagination
 		? {
@@ -41,8 +43,9 @@ const UMTable = ({
 			dataSource={dataSource}
 			pagination={paginationConfig}
 			onChange={onTableChange}
-			scroll={{ x: 768, y: 300 }}
+			scroll={scroll}
 			bordered
+			style={{ whiteSpace: "nowrap" }}
 		/>
 	);
 };

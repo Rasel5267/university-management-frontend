@@ -7,38 +7,52 @@ import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import UploadImage from "@/components/ui/UploadImage";
-import {
-	bloodGroupOptions,
-	departmentOptions,
-	genderOptions,
-} from "@/constants/global";
+import { bloodGroupOptions, genderOptions } from "@/constants/global";
 import { adminSchema } from "@/schemas/admin";
 import { getUserInfo } from "@/services/auth.service";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, Row } from "antd";
-import { SubmitHandler } from "react-hook-form";
+import { Button, Col, Row, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
+import { useDepartmentsQuery } from "@/redux/api/departmentApi";
+import { IDepartment } from "@/types/common";
+import { useAddAdminWithFormDataMutation } from "@/redux/api/adminApi";
 
 const antIcon = (
 	<LoadingOutlined style={{ fontSize: 24, color: "#fff" }} spin />
 );
 
-const isLoading = false;
-
-type FormValues = {
-	id: string;
-	password: string;
-};
-
 const CreateAdminPage = () => {
 	const { role } = getUserInfo() as any;
+	const { data } = useDepartmentsQuery({ limit: 100, page: 1 });
+	const departments: IDepartment[] = data?.data;
 
-	const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
+	const departmentOptions =
+		departments &&
+		departments.map((department) => {
+			return {
+				label: department.title,
+				value: department.id,
+			};
+		});
+
+	const [addAdminWithFormData, { isLoading }] =
+		useAddAdminWithFormDataMutation();
+
+	const onSubmit = async (values: any) => {
+		const obj = { ...values };
+		const file = obj["file"];
+		delete obj["file"];
+		const data = JSON.stringify(obj);
+		const formData = new FormData();
+		formData.append("file", file as Blob);
+		formData.append("data", data);
 		try {
-			console.log(data);
+			const res = await addAdminWithFormData(formData).unwrap();
+			message.success(res?.message);
+			window.location.reload();
 		} catch (error: any) {
-			console.log(error);
+			message.error(error?.data?.errorMessages[0]?.message);
 		}
 	};
 	return (
@@ -104,8 +118,6 @@ const CreateAdminPage = () => {
 									label="Last Name"
 								/>
 							</Col>
-						</Row>
-						<Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
 							<Col className="gutter-row" span={8}>
 								<FormInput
 									name="password"
@@ -133,8 +145,6 @@ const CreateAdminPage = () => {
 									placeholder="Select a Management Department"
 								/>
 							</Col>
-						</Row>
-						<Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
 							<Col
 								className="gutter-row"
 								span={8}

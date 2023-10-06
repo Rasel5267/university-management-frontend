@@ -23,8 +23,8 @@ const Form = ({
 
 	if (!!defaultValues) formConfig["defaultValues"] = defaultValues;
 	if (!!resolver) formConfig["resolver"] = resolver;
-
 	const methods = useForm<FormProps>(formConfig);
+
 	const { handleSubmit, reset } = methods;
 
 	const onSubmit = (data: any) => {
@@ -36,7 +36,9 @@ const Form = ({
 
 	return (
 		<FormProvider {...methods}>
-			<form onSubmit={handleSubmit(onSubmit)}>{children}</form>
+			<form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+				{children}
+			</form>
 		</FormProvider>
 	);
 };

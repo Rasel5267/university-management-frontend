@@ -182,6 +182,7 @@ const ManageDepartmentPage = () => {
 					onPaginationChange={onPaginationChange}
 					onTableChange={onTableChange}
 					showPagination={true}
+					scroll={{ x: 768, y: 300 }}
 				/>
 			</div>
 		</div>
