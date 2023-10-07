@@ -3,51 +3,47 @@
 import { Table } from "antd";
 
 type UMTableProps = {
-	columns: any;
-	loading: boolean;
-	dataSource: any;
-	pageSize?: number;
-	total?: number;
-	showSizeChanger?: boolean;
-	onPaginationChange?: (pageSize: number, total: number) => void;
-	onTableChange?: (pagination: any, filter: any, sorter: any) => void;
-	showPagination?: boolean;
-	scroll: any;
+  loading?: boolean;
+  columns: any;
+  dataSource: any;
+  pageSize?: number;
+  totalPages?: number;
+  showSizeChanger?: boolean;
+  onPaginationChange?: (page: number, pageSize: number) => void;
+  onTableChange?: (pagination: any, filter: any, sorter: any) => void;
+  showPagination?: boolean;
 };
 
 const UMTable = ({
-	columns,
-	loading = false,
-	dataSource,
-	pageSize,
-	total,
-	showSizeChanger = false,
-	onPaginationChange,
-	onTableChange,
-	showPagination = true,
-	scroll,
+  loading = false,
+  columns,
+  dataSource,
+  pageSize,
+  totalPages,
+  showSizeChanger = true,
+  onPaginationChange,
+  onTableChange,
+  showPagination = true,
 }: UMTableProps) => {
-	const paginationConfig = showPagination
-		? {
-				pageSize: pageSize,
-				total: total,
-				showSizeChanger: showSizeChanger,
-				onChange: onPaginationChange,
-		  }
-		: false;
+  const paginationConfig = showPagination
+    ? {
+        pageSize: pageSize,
+        total: totalPages,
+        pageSizeOptions: [5, 10, 20],
+        showSizeChanger: showSizeChanger,
+        onChange: onPaginationChange,
+      }
+    : false;
 
-	return (
-		<Table
-			loading={loading}
-			columns={columns}
-			dataSource={dataSource}
-			pagination={paginationConfig}
-			onChange={onTableChange}
-			scroll={scroll}
-			bordered
-			style={{ whiteSpace: "nowrap" }}
-		/>
-	);
+  return (
+    <Table
+      loading={loading}
+      columns={columns}
+      dataSource={dataSource}
+      pagination={paginationConfig}
+      onChange={onTableChange}
+    />
+  );
 };
 
 export default UMTable;

@@ -1,22 +1,24 @@
-"use client";
-
-import { getUserInfo } from "@/services/auth.service";
-import UMBreadCrumb from "./UMBreadCrumb";
-
 type ActionBarProps = {
-	title?: string;
-	children?: React.ReactElement | React.ReactNode;
+  title?: string;
+  children?: React.ReactElement | React.ReactNode;
 };
 
 const ActionBar = ({ title, children }: ActionBarProps) => {
-	const { role } = getUserInfo() as any;
-	return (
-		<div>
-			<UMBreadCrumb items={[{ label: `${role}`, link: `/${role}` }]} />
-			<h1>{title}</h1>
-			<div>{children}</div>
-		</div>
-	);
+  return (
+    <div>
+      <h1>{title}</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "10px 0px",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
 };
 
 export default ActionBar;

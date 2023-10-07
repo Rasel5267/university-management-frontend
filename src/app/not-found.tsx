@@ -1,20 +1,17 @@
-import { Button, Result } from "antd";
-import Link from "next/link";
-import React from "react";
+import { Button, Row } from "antd";
 
-const NotFound = () => {
-	return (
-		<Result
-			status="404"
-			title="404"
-			subTitle="Sorry, the page you visited does not exist."
-			extra={
-				<Button>
-					<Link href="/">Back Home</Link>
-				</Button>
-			}
-		/>
-	);
+const NotFoundPage = () => {
+  return (
+    <Row
+      justify="center"
+      align="middle"
+      style={{
+        height: "100vh",
+      }}
+    >
+      <h1>404!!! Page Not Found!</h1>
+    </Row>
+  );
 };
 
-export default NotFound;
+export default NotFoundPage;

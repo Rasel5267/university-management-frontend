@@ -1,20 +1,20 @@
 "use client";
 
-import { Button, Result } from "antd";
-import Link from "next/link";
+import { Row } from "antd";
 
 const ErrorPage = () => {
-	return (
-		<Result
-			status="warning"
-			title="Something went wrong"
-			extra={
-				<Button>
-					<Link href="/">Back Home</Link>
-				</Button>
-			}
-		/>
-	);
+  return (
+    <Row
+      justify="center"
+      align="middle"
+      style={{
+        height: "100vh",
+        color: "red",
+      }}
+    >
+      <h1>Something Went Wrong!</h1>
+    </Row>
+  );
 };
 
 export default ErrorPage;

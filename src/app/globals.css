@@ -1,23 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 * {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
-	font-family: "Poppins", sans-serif;
-}
-
-.imgWrapper {
-	position: relative;
-	width: 100%;
-	aspect-ratio: 1/1;
-	margin: 2rem auto;
-	border-radius: 20%;
-}
-
-.flex_middle {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
 }
